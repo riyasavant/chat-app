@@ -5,6 +5,12 @@
   font-family: "Average", serif;
 }
 
+.error {
+  color: red;
+  font-size: 14px;
+  margin-left: 20px;
+}
+
 #icon{
   position: fixed;
   margin-top: 30px;
@@ -18,7 +24,7 @@
   margin-top: 30vh;
 }
 
-input[type="text"] {
+input[type="text"], input[type="password"] {
   display: block;
   background: #e6e6e6;
   border: none;
@@ -57,6 +63,12 @@ input[type="text"] {
   border-radius: 100px;
   transition: ease-out 0.1s;
   cursor: pointer;
+}
+
+button {
+  border: none;
+  background: transparent;
+  float: right;
 }
 
 .arrow:hover {
@@ -173,7 +185,7 @@ input[type="text"] {
     margin-top: 0vh;
   }
 
-  input[type="text"] {
+  input[type="text"], input[type="password"] {
     margin: 20px 0px;
     width:75vw;
   }
@@ -205,5 +217,9 @@ input[type="text"] {
   .arrow:hover {
     padding: 20px;
     background: #fb5454;
-  } 
+  }
+  
+  .error {
+    margin-left: 0;
+  }
 }
