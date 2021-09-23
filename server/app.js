@@ -1,13 +1,16 @@
+require("dotenv").config();
 const express = require('express');
 const mongoose = require("mongoose");
 
-const indexRouter = require('./routes/index');
+const authRouter = require('./routes/auth');
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', indexRouter);
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
+
+app.use('/api/auth', authRouter);
 
 module.exports = app;
