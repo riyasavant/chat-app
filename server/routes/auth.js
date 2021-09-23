@@ -10,7 +10,7 @@ router.post('/register', async (req, res) => {
   const oldUser = await User.findOne({ username: user.username });
 
   if(oldUser) {
-    res.json({message: "Username has already been taken"});
+    res.status(401).json({message: "Username has already been taken"});
   } else {
 
     // 10 Salt rounds
@@ -22,7 +22,7 @@ router.post('/register', async (req, res) => {
     });
 
     newUser.save();
-    res.json({message: "Registered successfully"});
+    res.status(200).json({message: "Registered successfully"});
   }
 });
 
