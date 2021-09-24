@@ -2,7 +2,12 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
+const verifyToken = require("../middlewares/verifyToken");
 const User = require('../models/user');
+
+router.get('/verifyAuth', verifyToken, (req, res) => {
+  res.json({ isLoggedIn: true });
+});
 
 router.post('/login', async (req, res) => {
   const user = req.body;
