@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useSnackbar } from 'react-simple-snackbar'
 import Auth from "../../components/Auth";
@@ -39,6 +39,24 @@ function RegisterPage() {
         }
       });
     }
+
+    useEffect(() => {
+      
+      fetch(process.env.REACT_APP_API_URL + "/auth/verifyAuth", {
+        headers: {
+          "x-access-token": localStorage.getItem("token")
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.isLoggedIn) {
+          openSnackbar('Authentication successful')
+          history.push('/chat');
+        }
+      })
+      .catch(err => console.log(err));
+      
+    }, []);
 
     return (
       <Auth isLogin={false} doSubmit={doRegister} errorMsg={errorMessage}/>
