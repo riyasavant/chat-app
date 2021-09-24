@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import HeaderIcon from '../Icon';
 import Wave from '../Wave';
 import Typewriter from "../WordAnimation";
@@ -8,17 +9,22 @@ function Auth({ isLogin, doSubmit, errorMsg }) {
     return (
       <div id="login">
         <HeaderIcon />
+
         <div id="msg">
           <p id="desc">
             <Typewriter />
           </p> 
           <span id="messenger">Messenger</span> 
         </div>
-        {/* User details */}
+
         <div id="credentials">  
           <form onSubmit={event => doSubmit(event)}>
             <div id="usr-opt">
-              <p id="new-user">{`${isLogin ? 'New' : 'Existing'} User?`} <span id="reg">{`${isLogin ? 'Register' : 'Login'}`}</span></p>
+              <p id="new-user">{`${isLogin ? 'New' : 'Existing'} User? `} 
+                <span>
+                  <Link to={`${isLogin ? '/register' : '/'}`} className="lnk">{`${isLogin ? 'Register' : 'Login'}`}</Link>
+                </span>
+              </p>
             </div>
             <input type="text" placeholder="Username"/>
             <input type="password" placeholder="Password"/>
@@ -32,7 +38,7 @@ function Auth({ isLogin, doSubmit, errorMsg }) {
             </div>
           </form>
         </div>
-        {/* Footer */}
+
         <Wave />
       </div>
     );

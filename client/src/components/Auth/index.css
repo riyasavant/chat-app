@@ -40,9 +40,9 @@ input[type="text"], input[type="password"] {
   margin: 20px;
 }
 
-#reg {
+.lnk {
+  text-decoration: none;
   color: #fb5454;
-  cursor: pointer;
 }
 
 #sign-in {

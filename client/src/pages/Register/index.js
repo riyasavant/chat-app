@@ -17,13 +17,15 @@ function RegisterPage() {
     function doRegister(e) {
       e.preventDefault();
 
+      setErrorMessage('');
+
       const form = e.target;
       const user = {
         username: form[0].value,
         password: form[1].value
       };
 
-      openSnackbar('Registering you...', 2000);
+      openSnackbar('Registering you...', 3000);
 
       axios.post(process.env.REACT_APP_API_URL + "/auth/register", user, {"Content-type": "application/json"})
       .then(response => {
@@ -32,8 +34,9 @@ function RegisterPage() {
       })
       .catch(err => {
         openSnackbar('Error Occured', 3000);
-        setErrorMessage('Username already taken');
-        console.log(err);
+        if(err.response && err.response.data) {
+          setErrorMessage(err.response.data.message);
+        }
       });
     }
 
