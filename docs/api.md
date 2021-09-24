@@ -11,5 +11,5 @@
 ### User
 1. Get username - `/api/user/getUsername`
    1. method: GET
-   2. header: {"x-access-token": <Pass the token stored in localStorage>}
+   2. header: {"x-access-token": Pass the token stored in localStorage}
    3. body: null
