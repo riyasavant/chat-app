@@ -45,8 +45,8 @@ function Auth({ isLogin, doSubmit, errorMsg }) {
             </div>
           </form>
         </div>
-
-        <Wave />
+          <Wave />
+        </div>
       </div>
       </div>
     );
