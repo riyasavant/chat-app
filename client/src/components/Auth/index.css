@@ -1,8 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Average&display=swap");
 
-.html,body {
+.html, body {
   height: 100%;
   font-family: "Average", serif;
+  /* background-color: #202124; */
+}
+
+.darkTheme {
+  background-color: #202124;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.lightTheme {
+  background-color: white;
 }
 
 .error {
