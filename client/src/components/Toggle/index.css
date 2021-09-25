@@ -29,7 +29,7 @@
     transition: .4s;
   }
   
-  .slider-left {
+  .slider:before {
     position: absolute;
     content: "";
     height: 26px;
