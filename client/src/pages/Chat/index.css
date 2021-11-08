@@ -1,3 +1,5 @@
+@import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css";
+
 body {
     margin: 0;
 }
@@ -23,12 +25,18 @@ body {
 }
 
 .chat-list {
-    margin: 0;
-    flex: 0.25;
-    height: 90vh;
+    margin: 70px 0px 20px 20px;
+    flex: 0.25 1;
+    height: 85vh;
     background-color: #f1f1f1;
     overflow-y: scroll;
-    /* overflow-y: scroll; */
+}
+
+#search-user{
+    margin-left: 5%;
+    width: 90%;
+    margin-bottom: 0px;
+    font-family: FontAwesome ;
 }
 
 .profile-btn {
@@ -44,9 +52,9 @@ body {
 }
 
 .chat-messages {
-    margin: 0;
+    margin: 70px 20px 20px 0px;
     flex: 0.75;
-    height: 100vh;
+    height: 85vh;
     background-color: #f1f1f1;
     margin-left: 20px;
     position: relative;
@@ -67,30 +75,45 @@ body {
     background-color: #d7d7d7;
 }
 
-.msg-input {
+* {
+    box-sizing: border-box;
+  }
+  
+  .flex-container {
     display: flex;
-    position: absolute;
-    bottom: 70px;
-    width: 100vw;
-}
+    flex-wrap: wrap;
+    font-size: 30px;
+    text-align: center;
+    position: relative;
+    bottom: 0.7vh;
+    background-color: #DDD8D8;
+  }
+  
+  .flex-item-left{
+    padding: 10px 10px 10px 50px;
+    flex: 85%;
+    background-image: url("https://img.icons8.com/material-outlined/24/000000/keyboard.png")!important;
+    background-repeat: no-repeat !important;
+    text-indent: 35px; 
+    background-position:center!important;
+    background-position-x: 10px!important;
+  }
 
-.msg-i {
-    margin: 0 10px 10px 10px !important;
-    width: 60% !important;
-}
+  input[type="text"]{
+    margin: 20px 10px 20px 10px;
+     }
 
-.send-btn {
+  .flex-item-right {
     background-color: #fb5454;
     color: white;
-    width: 10%;
-    height: 55px;
     font-size: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    flex: 10%;
     cursor: pointer;
-}
+    border: none;
+    margin: 20px 10px 20px 0;
 
+  }
+  
 .msgs {
     overflow-y: scroll;
     height: 70vh;
