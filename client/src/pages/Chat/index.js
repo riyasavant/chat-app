@@ -1,7 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useSnackbar } from 'react-simple-snackbar'
-import { dummyUsers, dummyChats } from '../../config/constants';
+import jwt from 'jwt-decode';
+import axios from 'axios';
+import { dummyChats } from '../../config/constants';
 import UserChat from '../../components/UserChat';
 import Message from "../../components/Message";
 import HeaderIcon from '../../components/Icon';
@@ -15,7 +17,11 @@ export default function Chat() {
     };
 
     const history = useHistory();
+    const [conversations, setConversations] = useState([]);
     const [openSnackbar, closeSnackbar] = useSnackbar(options);
+
+    const user = jwt(localStorage.getItem("token"));
+    // console.log(user);
 
     useEffect(() => {
       
@@ -35,6 +41,19 @@ export default function Chat() {
         
       }, []);
 
+    useEffect(() => {
+      const getConversations = async () => {
+        try {
+          const convData = await axios.get(process.env.REACT_APP_API_URL + "/conversations/" + user.id);
+          // console.log(convData);
+          setConversations(convData.data);
+        } catch(err) {
+          console.log(err);
+        }
+      }
+      getConversations();
+    }, []);
+
     return (
         <div className="chat">
           <HeaderIcon />
@@ -46,7 +65,7 @@ export default function Chat() {
               <div className="chat-list">
                 <input type="text" placeholder="&#xF002;  Search User" id="search-user" />
                 <div className="user-list">
-                  {dummyUsers.map(user => <UserChat username={user.username}/>)}
+                  {conversations.map(u => <UserChat data={u} currentUser={user}/>)}
                 </div>
               </div>
               <div className="chat-messages">
