@@ -9,11 +9,11 @@ export const dummyUsers = [
     { username: 'Steve J' },
     { username: 'Jane Doe' },
     { username: 'John Doe' },
-    { username: 'Zack M' },
-    { username: 'Steve J' },
-    { username: 'Jane Doe' },
-    { username: 'John Doe' },
-    { username: 'Zack M' },
+    // { username: 'Zack M' },
+    // { username: 'Steve J' },
+    // { username: 'Jane Doe' },
+    // { username: 'John Doe' },
+    // { username: 'Zack M' },
     { username: 'Steve J' }
 ]
 
