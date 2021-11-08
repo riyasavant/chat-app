@@ -5,6 +5,8 @@ const cors = require("cors");
 
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
+const conversationRouter = require('./routes/conversation');
+const messageRouter = require('./routes/message');
 
 const app = express();
 
@@ -16,5 +18,7 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
 
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
+app.use('/api/conversations', conversationRouter);
+app.use('/api/messages', messageRouter);
 
 module.exports = app;
