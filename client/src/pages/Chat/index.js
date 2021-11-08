@@ -3,10 +3,9 @@ import { useHistory } from 'react-router';
 import { useSnackbar } from 'react-simple-snackbar'
 import jwt from 'jwt-decode';
 import axios from 'axios';
-import { dummyChats } from '../../config/constants';
 import UserChat from '../../components/UserChat';
-import Message from "../../components/Message";
 import HeaderIcon from '../../components/Icon';
+import Messenger from '../../components/Messenger';
 import "./index.css";
 
 export default function Chat() {
@@ -18,10 +17,11 @@ export default function Chat() {
 
     const history = useHistory();
     const [conversations, setConversations] = useState([]);
+    const [selectedChat, setSelectedChat] = useState(null);
     const [openSnackbar, closeSnackbar] = useSnackbar(options);
-
-    const user = jwt(localStorage.getItem("token"));
-    // console.log(user);
+    const [currentUser, setCurrentUser] = useState(null);
+    const [currentConversationId, setConversationId] = useState(null);
+    const [friendNameSelected, setFriendName] = useState('');
 
     useEffect(() => {
       
@@ -41,10 +41,17 @@ export default function Chat() {
         
       }, []);
 
+      useEffect(() => {
+        const user = jwt(localStorage.getItem("token"));
+        setCurrentUser(user);
+      }, []);
+
     useEffect(() => {
+      // console.log(currentUser);
+      
       const getConversations = async () => {
         try {
-          const convData = await axios.get(process.env.REACT_APP_API_URL + "/conversations/" + user.id);
+          const convData = await axios.get(process.env.REACT_APP_API_URL + "/conversations/" + currentUser.id);
           // console.log(convData);
           setConversations(convData.data);
         } catch(err) {
@@ -53,6 +60,19 @@ export default function Chat() {
       }
       getConversations();
     }, []);
+
+    const showMessages = async (conversationId, fName) => {
+      setConversationId(conversationId);
+      try {
+        const messagesData = await axios.get(process.env.REACT_APP_API_URL + "/messages/" + conversationId);
+        console.log(messagesData);
+        openSnackbar('Messages Fetched Successfully');
+        setSelectedChat(messagesData.data);
+        setFriendName(fName);
+      } catch(err) {
+        openSnackbar('Could not fetch messages');
+      }
+    }
 
     return (
         <div className="chat">
@@ -65,22 +85,10 @@ export default function Chat() {
               <div className="chat-list">
                 <input type="text" placeholder="&#xF002;  Search User" id="search-user" />
                 <div className="user-list">
-                  {conversations.map(u => <UserChat data={u} currentUser={user}/>)}
+                  {conversations.map(u => <UserChat data={u} currentUser={currentUser} onClick={(friendName) => showMessages(u["_id"], friendName)}/>)}
                 </div>
               </div>
-              <div className="chat-messages">
-                <div className="user-header">
-                  <div className="profile-btn"></div>
-                  <div style={{display: 'flex', alignItems: 'center', marginLeft: '20px'}}>Jane Doe</div>
-                </div>
-                <div className="msgs">
-                  {dummyChats.map(chat => <Message text={chat.text} sender={chat.sender}/>)}
-                </div>
-                <div className="flex-container">
-                <input type="text" placeholder="Type a message..." className="flex-item-left" />
-                  <input type="button" value="Send" className="flex-item-right"/>
-                </div>
-              </div>
+              {selectedChat ? <Messenger data={selectedChat} currentUser={currentUser} id={currentConversationId} fName={friendNameSelected}/> : <div className="default-txt"><div className="txt">Select a chat to see the messages...</div></div>}
             </div>
           </div>
         </div>
