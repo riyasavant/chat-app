@@ -16,8 +16,8 @@ export default function UserChat({ data, currentUser }) {
     }, [])
 
     return(
-        <div className="flex mb-10 ctr">
-            <div className="profile-btn"></div>
+        <div className="flex mb-10 ctr" style={{height: '70px'}}>
+            <div className="profile-btn" style={{marginTop: '10px'}}></div>
             <div style={{marginLeft: '20px', display: 'flex', alignItems: 'center'}}>{userData.username}</div>
         </div>
     )
