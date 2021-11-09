@@ -32,11 +32,25 @@ body {
     overflow-y: scroll;
 }
 
+.input-wrapper {
+    position: relative;
+}
+
+.search-icon {
+    font-family: FontAwesome;
+    position: absolute;
+    right: 10%;
+    top: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #fb5454;
+}
+
 #search-user{
     margin-left: 5%;
-    width: 90%;
+    width: 85%;
     margin-bottom: 0px;
-    font-family: FontAwesome ;
+    font-family: FontAwesome;
 }
 
 .user-list {

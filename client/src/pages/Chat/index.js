@@ -20,6 +20,10 @@ export default function Chat() {
     const history = useHistory();
     const [openSnackbar, closeSnackbar] = useSnackbar(options);
 
+    // Search for a user
+    const [isSearching, setIsSearching] = useState(false);
+    const [searchUser, setSearchUser] = useState('');
+
     // Stores all conversations
     const [conversations, setConversations] = useState([]);
     const [selectedConvo, setSelectedConvo] = useState(null);
@@ -100,6 +104,23 @@ export default function Chat() {
       }
     }
 
+    const handleSearch = async () => {
+      setIsSearching(true);
+      try {
+        const response = await axios.get(process.env.REACT_APP_API_URL + "/user/" + searchUser);
+        if(response.data) {
+          setSearchUser('');
+          openSnackbar('User found');
+          const newConvoResponse = await axios.post(process.env.REACT_APP_API_URL + "/conversations/", { senderId: currentUser.id, receiverId: response.data["_id"]});
+          console.log(newConvoResponse);
+          setConversations(prev => [...prev, newConvoResponse.data]);
+        } else { openSnackbar('Username not found'); setSearchUser('');}
+        setIsSearching(false);
+      } catch(err) {
+        console.log(err);
+      }
+    }
+
     return (
         <div className="chat">
           <HeaderIcon />
@@ -109,7 +130,16 @@ export default function Chat() {
             </div>
             <div className="chat-body">
               <div className="chat-list">
-                <input type="text" placeholder="&#xF002;  Search User" id="search-user" />
+                <div className="input-wrapper">
+                  <input 
+                    type="text" 
+                    placeholder={isSearching ? "Searching..." : "Search User" }
+                    id="search-user" 
+                    value={searchUser} 
+                    onChange={(e) => setSearchUser(e.target.value)}
+                  />
+                  {!isSearching && <div className="search-icon" onClick={handleSearch}>&#xF002;</div>}
+                </div>
                 <div className="user-list">
                   {conversations.map(convo => 
                     <UserChat 
