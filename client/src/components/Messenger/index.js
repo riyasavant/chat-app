@@ -5,10 +5,16 @@ import "./index.css";
 
 export default function Messenger({ data, currentUser, id, fName }) {
 
+  console.log(data);
+
   const [message, setMessage] = useState('');
-  const [prevData, setPrevData] = useState(data);
+  const [prevData, setPrevData] = useState([]);
 
   const scrollRef = useRef();
+
+  useEffect(() => {
+    setPrevData(data);
+  }, [data])
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({behaviour: "smooth"});
@@ -33,7 +39,7 @@ export default function Messenger({ data, currentUser, id, fName }) {
     }
   }
 
-  console.log(currentUser);
+  // console.log(currentUser);
     return(
         <div className="chat-messages">
             <div className="user-header">

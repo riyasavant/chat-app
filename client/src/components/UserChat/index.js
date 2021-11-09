@@ -13,7 +13,7 @@ export default function UserChat({ data, currentUser, onClick }) {
             setUserData(response.data);
         };
         getUserData();
-    }, [])
+    }, [currentUser])
 
     return(
         <div className="flex mb-10 ctr" style={{height: '70px'}} onClick={() => onClick(userData ? userData.username : 'Loading...')}>

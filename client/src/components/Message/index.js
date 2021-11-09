@@ -3,7 +3,7 @@ import "./index.css";
 
 export default function Message({ text, sender, time, currentUser }) {
 
-    console.log(sender, currentUser);
+    // console.log(sender, currentUser);
 
     return (
         <div 
