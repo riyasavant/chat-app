@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderIcon from '../Icon';
 import Wave from '../Wave';
@@ -9,6 +9,19 @@ import ToggleTheme from '../Toggle';
 
 function Auth({ isLogin, doSubmit, errorMsg }) {  
   const { theme, setTheme } = useContext(ThemeContext);
+  const [passwordError, setPasswordError] = useState(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if(e.target[0].value !== '' && e.target[1].value.length >= 6 && e.target[1].value.length <= 12) {
+      doSubmit(e);
+    } else {
+      if(e.target[1].value.length < 6 || e.target[1].value.length > 12) {
+        setPasswordError('Length of Password should be between 6 to 12');
+      }
+    }
+  }
+
     return (
       <div className={theme === 'dark' ? 'darkTheme' : 'lightTheme'}>
         <ToggleTheme theme={theme} setTheme={setTheme}/>
@@ -24,7 +37,7 @@ function Auth({ isLogin, doSubmit, errorMsg }) {
           </div>
 
           <div id="credentials">  
-            <form onSubmit={event => doSubmit(event)}>
+            <form onSubmit={handleSubmit}>
               <div id="usr-opt">
                 <p  id={theme === 'dark' ? 'new-user-dark' : 'new-user'}>{`${isLogin ? 'New' : 'Existing'} User? `} 
                   <span>
@@ -32,8 +45,9 @@ function Auth({ isLogin, doSubmit, errorMsg }) {
                   </span>
                 </p>
               </div>
-              <input type="text" placeholder="Username" id="pos"/>
-              <input type="password" placeholder="Password"/>
+              <input type="text" placeholder="Username" id="pos" required/>
+              <input type="password" placeholder="Password" required/>
+              {passwordError && <p className="error">{passwordError}</p>}
               <p className="error">{errorMsg}</p>
               <div>
                 <p id="sign-in" className={theme === 'dark' ? 'sign-in-dark' : 'sign-in-light'}>{`Sign ${isLogin ? 'in' : 'up'}`} </p>
