@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState, useRef } from 'react';
 import { useHistory } from 'react-router';
 import { useSnackbar } from 'react-simple-snackbar';
 import { io } from "socket.io-client";
@@ -17,37 +18,62 @@ export default function Chat() {
     };
 
     const history = useHistory();
-    const [socket, setSocket] = useState(null);
-    const [conversations, setConversations] = useState([]);
-    const [selectedChat, setSelectedChat] = useState(null);
     const [openSnackbar, closeSnackbar] = useSnackbar(options);
+
+    // Stores all conversations
+    const [conversations, setConversations] = useState([]);
+    const [selectedConvo, setSelectedConvo] = useState(null);
+
+    // Stores the messages of current selected conversation
+    const [chatMessages, setChatMessages] = useState(null);
+
+    // Stores details of the current user -> decoding token
     const [currentUser, setCurrentUser] = useState(null);
-    const [currentConversationId, setConversationId] = useState(null);
-    const [friendNameSelected, setFriendName] = useState('');
+
+    // Stores the details of current convo friend
+    const [friendSelected, setFriendSelected] = useState('');
+
+    // Creates a reference to socket connection
+    const socket = useRef();
+
+    // Runs when socket fns are called
+    useEffect(() => {
+      socket.current = io("ws://localhost:8900");
+    }, []);
 
     useEffect(() => {
-      
-        fetch(process.env.REACT_APP_API_URL + "/auth/verifyAuth", {
-          headers: {
-            "x-access-token": localStorage.getItem("token")
-          }
-        })
-        .then(res => res.json())
-        .then(data => {
-            if(!data.isLoggedIn) {
-                openSnackbar('Please Login')
-                history.push('/');
-            }
-            else {
-              const user = jwt(localStorage.getItem("token"));
-              setCurrentUser(user);
-              setSocket(io("ws://localhost:8900"));
-            }
-        })
-        .catch(err => console.log(err));
-        
-      }, []);
+      const token = localStorage.getItem("token");
+      if(token) {
+        const data = jwt(token);
+        socket.current.emit("addUser", data?.id)
+      }
+      socket.current.on("getUsers", (users) => console.log(users));
+    }, []);
 
+    // Initially checks if user is logged in
+    useEffect(() => {
+      
+      fetch(process.env.REACT_APP_API_URL + "/auth/verifyAuth", {
+        headers: {
+          "x-access-token": localStorage.getItem("token")
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+          if(!data.isLoggedIn) {
+              openSnackbar('Please Login');
+              history.push('/');
+          }
+          else {
+            const user = jwt(localStorage.getItem("token"));
+            setCurrentUser(user);
+          }
+      })
+      .catch(err => console.log(err));
+      
+    }, []);
+
+    // Fetches all conversations on page load
     useEffect(() => {
       const getConversations = async () => {
         try {
@@ -61,20 +87,14 @@ export default function Chat() {
       getConversations();
     }, [currentUser]);
 
-    useEffect(() => {
-      socket?.on("WebSockets", message => {
-        console.log(message);
-      })
-    }, [socket]);
-
-    const showMessages = async (conversationId, fName) => {
-      setConversationId(conversationId);
+    // Fetches all messages from selected conversation
+    const showMessages = async (convo, friendData) => {
+      setSelectedConvo(convo);
       try {
-        const messagesData = await axios.get(process.env.REACT_APP_API_URL + "/messages/" + conversationId);
-        // console.log(messagesData);
+        const messagesData = await axios.get(process.env.REACT_APP_API_URL + "/messages/" + convo._id);
         openSnackbar('Messages Fetched Successfully');
-        setSelectedChat(messagesData.data);
-        setFriendName(fName);
+        setChatMessages(messagesData.data);
+        setFriendSelected(friendData);
       } catch(err) {
         openSnackbar('Could not fetch messages');
       }
@@ -91,10 +111,28 @@ export default function Chat() {
               <div className="chat-list">
                 <input type="text" placeholder="&#xF002;  Search User" id="search-user" />
                 <div className="user-list">
-                  {conversations.map(u => <UserChat data={u} currentUser={currentUser} onClick={(friendName) => showMessages(u["_id"], friendName)}/>)}
+                  {conversations.map(convo => 
+                    <UserChat 
+                      data={convo} 
+                      currentUser={currentUser} 
+                      onClick={(friendData) => showMessages(convo, friendData)}
+                    />
+                  )}
                 </div>
               </div>
-              {selectedChat ? <Messenger data={selectedChat} currentUser={currentUser} id={currentConversationId} fName={friendNameSelected}/> : <div className="default-txt"><div className="txt">Select a chat to see the messages...</div></div>}
+              {chatMessages ? 
+                <Messenger 
+                  data={chatMessages} 
+                  currentUser={currentUser} 
+                  convoData={selectedConvo} 
+                  friendData={friendSelected} 
+                  socket={socket}
+                  setChatData={setChatMessages}
+                /> : 
+                <div className="default-txt">
+                  <div className="txt">Select a chat to see the messages...</div>
+                </div>
+              }
             </div>
           </div>
         </div>
