@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { useSnackbar } from 'react-simple-snackbar'
+import { useSnackbar } from 'react-simple-snackbar';
+import { io } from "socket.io-client";
 import jwt from 'jwt-decode';
 import axios from 'axios';
 import UserChat from '../../components/UserChat';
@@ -16,6 +17,7 @@ export default function Chat() {
     };
 
     const history = useHistory();
+    const [socket, setSocket] = useState(null);
     const [conversations, setConversations] = useState([]);
     const [selectedChat, setSelectedChat] = useState(null);
     const [openSnackbar, closeSnackbar] = useSnackbar(options);
@@ -39,6 +41,7 @@ export default function Chat() {
             else {
               const user = jwt(localStorage.getItem("token"));
               setCurrentUser(user);
+              setSocket(io("ws://localhost:8900"));
             }
         })
         .catch(err => console.log(err));
@@ -57,6 +60,12 @@ export default function Chat() {
       }
       getConversations();
     }, [currentUser]);
+
+    useEffect(() => {
+      socket?.on("WebSockets", message => {
+        console.log(message);
+      })
+    }, [socket]);
 
     const showMessages = async (conversationId, fName) => {
       setConversationId(conversationId);
