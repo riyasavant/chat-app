@@ -80,8 +80,8 @@ export default function Messenger({ data, currentUser, convoData, friendData, so
               )}
             </div>
             <div className="flex-container">
-            <input type="text" placeholder="Type a message..." className="flex-item-left" value={message} onChange={handleChange}/>
-            <button className="flex-item-right" onClick={sendMessage}>Send</button>
+              <input type="text" placeholder="Type a message..." className="flex-item-left" value={message} onChange={handleChange}/>
+              <button className="flex-item-right" onClick={sendMessage}>Send</button>
             </div>
         </div>
     )
