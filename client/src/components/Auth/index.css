@@ -71,6 +71,14 @@ input[type="text"], input[type="password"] {
   color: #fb5454;
 }
 
+input[type="text"]#pos{
+  margin-left: 20px !important ;
+}
+
+*{
+  box-sizing: unset!important;
+}
+
 #sign-in {
   display: inline-table;
   font-size: x-large;

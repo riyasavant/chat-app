@@ -4,7 +4,6 @@ import HeaderIcon from '../Icon';
 import Wave from '../Wave';
 import Typewriter from "../WordAnimation";
 import { ThemeContext } from '../../config/context/themeContext';
-
 import './index.css';
 import ToggleTheme from '../Toggle';
 
@@ -33,7 +32,7 @@ function Auth({ isLogin, doSubmit, errorMsg }) {
                   </span>
                 </p>
               </div>
-              <input type="text" placeholder="Username"/>
+              <input type="text" placeholder="Username" id="pos"/>
               <input type="password" placeholder="Password"/>
               <p className="error">{errorMsg}</p>
               <div>
