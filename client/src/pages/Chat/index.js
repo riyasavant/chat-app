@@ -36,36 +36,33 @@ export default function Chat() {
                 openSnackbar('Please Login')
                 history.push('/');
             }
+            else {
+              const user = jwt(localStorage.getItem("token"));
+              setCurrentUser(user);
+            }
         })
         .catch(err => console.log(err));
         
       }, []);
 
-      useEffect(() => {
-        const user = jwt(localStorage.getItem("token"));
-        setCurrentUser(user);
-      }, []);
-
     useEffect(() => {
-      // console.log(currentUser);
-      
       const getConversations = async () => {
         try {
           const convData = await axios.get(process.env.REACT_APP_API_URL + "/conversations/" + currentUser.id);
-          // console.log(convData);
+          openSnackbar('Fetched Conversations')
           setConversations(convData.data);
         } catch(err) {
           console.log(err);
         }
       }
       getConversations();
-    }, []);
+    }, [currentUser]);
 
     const showMessages = async (conversationId, fName) => {
       setConversationId(conversationId);
       try {
         const messagesData = await axios.get(process.env.REACT_APP_API_URL + "/messages/" + conversationId);
-        console.log(messagesData);
+        // console.log(messagesData);
         openSnackbar('Messages Fetched Successfully');
         setSelectedChat(messagesData.data);
         setFriendName(fName);

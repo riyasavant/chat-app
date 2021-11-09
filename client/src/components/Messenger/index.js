@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Message from "../Message/index";
 import axios from 'axios';
 import "./index.css";
@@ -8,7 +8,12 @@ export default function Messenger({ data, currentUser, id, fName }) {
   const [message, setMessage] = useState('');
   const [prevData, setPrevData] = useState(data);
 
-  console.log(message);
+  const scrollRef = useRef();
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({behaviour: "smooth"});
+  }, [prevData])
+
   const handleChange = (e) => {
     e.preventDefault();
     setMessage(e.target.value);
@@ -36,7 +41,7 @@ export default function Messenger({ data, currentUser, id, fName }) {
               <div style={{display: 'flex', alignItems: 'center', marginLeft: '20px'}}>{fName}</div>
             </div>
             <div className="msgs">
-              {prevData.map(chat => <Message text={chat.text} sender={chat.sender} time={chat.createdAt} currentUser={currentUser.id}/>)}
+              {prevData.map(chat => <div ref={scrollRef}><Message text={chat.text} sender={chat.sender} time={chat.createdAt} currentUser={currentUser.id}/></div>)}
             </div>
             <div className="flex-container">
             <input type="text" placeholder="Type a message..." className="flex-item-left" value={message} onChange={handleChange}/>
