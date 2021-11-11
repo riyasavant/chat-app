@@ -15,25 +15,4 @@
 1. Get username - `/api/user/getUsername`
    1. method: GET
    2. header: {"x-access-token": Pass the token stored in localStorage}
-   3. body: null  
-2. Get user details - `/api/user/:userId`
-   1. method: GET
-   2. param: userId - string  
-   
-### Conversation  
-1. Create a conversation - `/api/conversations/`  
-   1. method: POST
-   2. body: { senderId: string, receiverId: string }  
-2. Get conversations of a user - `/api/conversations/:userId`  
-   1. method: GET
-   2. body: null
-   3. param: userId - string  
-
-### Messages  
-1. Create a message - `/api/messages/`  
-   1. method: POST
-   2. body: { sender: string, conversationId: string, text: string }  
-2. Get messages under a conversation - `/api/conversations/:conversationId`  
-   1. method: GET
-   2. body: null
-   3. param: conversationId - string  
+   3. body: null

@@ -50,7 +50,7 @@ function RegisterPage() {
       .then(res => res.json())
       .then(data => {
         if(data.isLoggedIn) {
-          openSnackbar('Authentication successful');
+          openSnackbar('Authentication successful')
           history.push('/chat');
         }
       })

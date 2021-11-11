@@ -12,15 +12,15 @@ function App() {
 
   return (
     <ThemeContext.Provider value={{theme, setTheme}}>
-        <SnackbarProvider>
-          <BrowserRouter>
-            <Switch>
-              <Route component={Login} exact path="/" />
-              <Route component={Register} exact path="/register" />
-              <Route component={Chat} exact path="/chat"/>
-            </Switch>
-          </BrowserRouter>
-        </SnackbarProvider>
+      <SnackbarProvider>
+        <BrowserRouter>
+          <Switch>
+            <Route component={Login} exact path="/" />
+            <Route component={Register} exact path="/register" />
+            <Route component={Chat} exact path="/chat"/>
+          </Switch>
+        </BrowserRouter>
+      </SnackbarProvider>
     </ThemeContext.Provider>
   );
 }
