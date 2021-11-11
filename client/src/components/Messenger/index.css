@@ -1,0 +1,73 @@
+.chat-messages {
+    margin: 70px 20px 0px 0px;
+    flex: 0.75;
+    height: 85vh;
+    background-color: #f1f1f1;
+    margin-left: 20px;
+    position: relative;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 2px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    background-color: grey;
+}
+
+.user-header {
+    display: flex;
+    padding: 15px;
+    background-color: #d7d7d7;
+}
+
+.msgs {
+    overflow-y: scroll;
+    height: 65vh;
+    padding: 20px;
+}
+
+* {
+    box-sizing: border-box;
+  }
+  
+  .flex-container {
+    display: flex;
+    /* flex-wrap: wrap; */
+    font-size: 30px;
+    text-align: center;
+    position: relative;
+    bottom: 0.8vh;
+    background-color: #DDD8D8;
+  }
+  
+  .flex-item-left{
+    padding: 10px 10px 10px 50px;
+    flex: 85%;
+    background-image: url("https://img.icons8.com/material-outlined/24/000000/keyboard.png")!important;
+    background-repeat: no-repeat !important;
+    text-indent: 35px; 
+    background-position:center!important;
+    background-position-x: 10px!important;
+  }
+
+  .flex-item-right {
+    margin: 20px 10px 20px 10px;
+    background-color: #fb5454;
+    color: white;
+    font-size: 20px;
+    flex: 10%;
+    cursor: pointer;
+    border: none;
+    margin: 20px 10px 20px 0;
+
+  }
+
+  .profile-btn {
+    height: 30px;
+    width: 30px;
+    background-color: grey;
+    border-radius: 50%;
+    cursor: pointer;
+}

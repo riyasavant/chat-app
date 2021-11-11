@@ -51,44 +51,37 @@ input[type="text"]#search-user{
     margin: 20px 0px 10px 20px;
     font-family: FontAwesome ;
     padding: 12px;
+
+.input-wrapper {
+    position: relative;
 }
 
-.profile-btn {
-    height: 30px;
-    width: 30px;
-    background-color: grey;
-    border-radius: 50%;
+.search-icon {
+    font-family: FontAwesome;
+    position: absolute;
+    right: 10%;
+    top: 15px;
+    font-size: 20px;
     cursor: pointer;
+    color: #fb5454;
+}
+
+#search-user{
+    margin-left: 5%;
+    width: 85%;
+    margin-bottom: 0px;
+    font-family: FontAwesome;
 }
 
 .user-list {
     padding: 30px;
 }
 
-.chat-messages {
-    margin: 70px 20px 20px 0px;
+.default-txt {
     flex: 0.75;
     height: 85vh;
-    background-color: #f1f1f1;
-    margin-left: 20px;
-    position: relative;
+    text-align: center;
 }
-
-/* Scrollbar */
-::-webkit-scrollbar {
-    width: 2px;
-}
- 
-::-webkit-scrollbar-thumb {
-    background-color: grey;
-}
-
-.user-header {
-    display: flex;
-    padding: 15px;
-    background-color: #d7d7d7;
-}
-
  
   .flex-container {
     display: flex;
@@ -105,8 +98,8 @@ input[type="text"]#search-user{
     flex: 60vw;
     background-image: url("https://img.icons8.com/material-outlined/24/000000/keyboard.png")!important;
     background-repeat: no-repeat !important;
-    background-position:center!important;
-    background-position-x: 10px!important;
+    background-position:center !important;
+    background-position-x: 10px !important;
   }
 
   input[type="text"].flex-item-left{
@@ -142,6 +135,15 @@ hr{
     display: flex;
     align-items: center;
     margin-left: 20px
+}
+  
+  .txt {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 40px;
+    color: grey;
 }
 
 /* Tab View */

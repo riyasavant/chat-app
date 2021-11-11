@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState, useRef } from 'react';
 import { useHistory } from 'react-router';
-import { useSnackbar } from 'react-simple-snackbar'
+import { useSnackbar } from 'react-simple-snackbar';
+import { io } from "socket.io-client";
 import jwt from 'jwt-decode';
 import axios from 'axios';
-import { dummyChats } from '../../config/constants';
 import UserChat from '../../components/UserChat';
-import Message from "../../components/Message";
 import HeaderIcon from '../../components/Icon';
+import Messenger from '../../components/Messenger';
 import "./index.css";
 
 export default function Chat() {
@@ -17,42 +18,108 @@ export default function Chat() {
     };
 
     const history = useHistory();
-    const [conversations, setConversations] = useState([]);
     const [openSnackbar, closeSnackbar] = useSnackbar(options);
 
-    const user = jwt(localStorage.getItem("token"));
-    // console.log(user);
+    // Search for a user
+    const [isSearching, setIsSearching] = useState(false);
+    const [searchUser, setSearchUser] = useState('');
+
+    // Stores all conversations
+    const [conversations, setConversations] = useState([]);
+    const [selectedConvo, setSelectedConvo] = useState(null);
+
+    // Stores the messages of current selected conversation
+    const [chatMessages, setChatMessages] = useState(null);
+
+    // Stores details of the current user -> decoding token
+    const [currentUser, setCurrentUser] = useState(null);
+
+    // Stores the details of current convo friend
+    const [friendSelected, setFriendSelected] = useState('');
+
+    // Creates a reference to socket connection
+    const socket = useRef();
+
+    // Runs when socket fns are called
+    useEffect(() => {
+      socket.current = io("ws://localhost:8900");
+    }, []);
 
     useEffect(() => {
-      
-        fetch(process.env.REACT_APP_API_URL + "/auth/verifyAuth", {
-          headers: {
-            "x-access-token": localStorage.getItem("token")
-          }
-        })
-        .then(res => res.json())
-        .then(data => {
-            if(!data.isLoggedIn) {
-                openSnackbar('Please Login')
-                history.push('/');
-            }
-        })
-        .catch(err => console.log(err));
-        
-      }, []);
+      const token = localStorage.getItem("token");
+      if(token) {
+        const data = jwt(token);
+        socket.current.emit("addUser", data?.id)
+      }
+      socket.current.on("getUsers", (users) => console.log(users));
+    }, []);
 
+    // Initially checks if user is logged in
+    useEffect(() => {
+      
+      fetch(process.env.REACT_APP_API_URL + "/auth/verifyAuth", {
+        headers: {
+          "x-access-token": localStorage.getItem("token")
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+          if(!data.isLoggedIn) {
+              openSnackbar('Please Login');
+              history.push('/');
+          }
+          else {
+            const user = jwt(localStorage.getItem("token"));
+            setCurrentUser(user);
+          }
+      })
+      .catch(err => console.log(err));
+      
+    }, []);
+
+    // Fetches all conversations on page load
     useEffect(() => {
       const getConversations = async () => {
         try {
-          const convData = await axios.get(process.env.REACT_APP_API_URL + "/conversations/" + user.id);
-          // console.log(convData);
+          const convData = await axios.get(process.env.REACT_APP_API_URL + "/conversations/" + currentUser.id);
+          openSnackbar('Fetched Conversations')
           setConversations(convData.data);
         } catch(err) {
           console.log(err);
         }
       }
       getConversations();
-    }, []);
+    }, [currentUser]);
+
+    // Fetches all messages from selected conversation
+    const showMessages = async (convo, friendData) => {
+      setSelectedConvo(convo);
+      try {
+        const messagesData = await axios.get(process.env.REACT_APP_API_URL + "/messages/" + convo._id);
+        openSnackbar('Messages Fetched Successfully');
+        setChatMessages(messagesData.data);
+        setFriendSelected(friendData);
+      } catch(err) {
+        openSnackbar('Could not fetch messages');
+      }
+    }
+
+    const handleSearch = async () => {
+      setIsSearching(true);
+      try {
+        const response = await axios.get(process.env.REACT_APP_API_URL + "/user/" + searchUser);
+        if(response.data) {
+          setSearchUser('');
+          openSnackbar('User found');
+          const newConvoResponse = await axios.post(process.env.REACT_APP_API_URL + "/conversations/", { senderId: currentUser.id, receiverId: response.data["_id"]});
+          console.log(newConvoResponse);
+          setConversations(prev => [...prev, newConvoResponse.data]);
+        } else { openSnackbar('Username not found'); setSearchUser('');}
+        setIsSearching(false);
+      } catch(err) {
+        console.log(err);
+      }
+    }
 
     return (
         <div className="chat">
@@ -68,32 +135,39 @@ export default function Chat() {
                     <rect y="40" width="80" height="10"></rect>
                   </svg>
                 </div>
-                <input type="text" placeholder="&#xF002;  Search User" id="search-user" />
+                <div className="input-wrapper">
+                  <input 
+                    type="text" 
+                    placeholder={isSearching ? "Searching..." : "Search User" }
+                    id="search-user" 
+                    value={searchUser} 
+                    onChange={(e) => setSearchUser(e.target.value)}
+                  />
+                  {!isSearching && <div className="search-icon" onClick={handleSearch}>&#xF002;</div>}
+                </div>
                 <div className="user-list">
-                  {conversations.map(u => <UserChat data={u} currentUser={user}/>)}
+                  {conversations.map(convo => 
+                    <UserChat 
+                      data={convo} 
+                      currentUser={currentUser} 
+                      onClick={(friendData) => showMessages(convo, friendData)}
+                    />
+                  )}
                 </div>
               </div>
-              <div className="chat-messages">
-                <div className="user-header">
-                <div id="hamburger">
-                  <svg viewBox="0 0 100 50" width="35" height="30">
-                    <rect width="80" height="10"></rect>
-                    <rect y="20" width="80" height="10"></rect>
-                    <rect y="40" width="80" height="10"></rect>
-                  </svg>
+              {chatMessages ? 
+                <Messenger 
+                  data={chatMessages} 
+                  currentUser={currentUser} 
+                  convoData={selectedConvo} 
+                  friendData={friendSelected} 
+                  socket={socket}
+                  setChatData={setChatMessages}
+                /> : 
+                <div className="default-txt">
+                  <div className="txt">Select a chat to see the messages...</div>
                 </div>
-                <hr></hr>
-                  <div className="profile-btn"></div>
-                  <div className="user-name">Jane Doe</div>
-                </div>
-                <div className="msgs">
-                  {dummyChats.map(chat => <Message text={chat.text} sender={chat.sender}/>)}
-                </div>
-                <div className="flex-container">
-                <input type="text" placeholder="Type a message..." className="flex-item-left" />
-                  <input type="button" value="Send" className="flex-item-right"/>
-                </div>
-              </div>
+              }
             </div>
           </div>
         </div>
