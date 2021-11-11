@@ -32,8 +32,8 @@ function Auth({ isLogin, doSubmit, errorMsg }) {
                   </span>
                 </p>
               </div>
-              <input type="text" placeholder="Username" id="pos"/>
-              <input type="password" placeholder="Password"/>
+              <input type="text" placeholder="Username" className="pos"/>
+              <input type="password" placeholder="Password" className="pos"/>
               <p className="error">{errorMsg}</p>
               <div>
                 <p id="sign-in" className={theme === 'dark' ? 'sign-in-dark' : 'sign-in-light'}>{`Sign ${isLogin ? 'in' : 'up'}`} </p>

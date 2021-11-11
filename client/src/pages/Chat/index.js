@@ -58,11 +58,16 @@ export default function Chat() {
         <div className="chat">
           <HeaderIcon />
           <div className="container">
-            <div className="chat-header">
-              {/* <div className="profile-btn"></div> */}
-            </div>
+            <span className="settings">&#9881;</span>
             <div className="chat-body">
               <div className="chat-list">
+              <div id="hamburger">
+                  <svg viewBox="0 0 100 50" width="35" height="30" id="ham-tab">
+                    <rect width="80" height="10"></rect>
+                    <rect y="20" width="80" height="10"></rect>
+                    <rect y="40" width="80" height="10"></rect>
+                  </svg>
+                </div>
                 <input type="text" placeholder="&#xF002;  Search User" id="search-user" />
                 <div className="user-list">
                   {conversations.map(u => <UserChat data={u} currentUser={user}/>)}
@@ -70,8 +75,16 @@ export default function Chat() {
               </div>
               <div className="chat-messages">
                 <div className="user-header">
+                <div id="hamburger">
+                  <svg viewBox="0 0 100 50" width="35" height="30">
+                    <rect width="80" height="10"></rect>
+                    <rect y="20" width="80" height="10"></rect>
+                    <rect y="40" width="80" height="10"></rect>
+                  </svg>
+                </div>
+                <hr></hr>
                   <div className="profile-btn"></div>
-                  <div style={{display: 'flex', alignItems: 'center', marginLeft: '20px'}}>Jane Doe</div>
+                  <div className="user-name">Jane Doe</div>
                 </div>
                 <div className="msgs">
                   {dummyChats.map(chat => <Message text={chat.text} sender={chat.sender}/>)}
