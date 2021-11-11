@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import { useHistory } from 'react-router';
 import { useSnackbar } from 'react-simple-snackbar';
 import { io } from "socket.io-client";
+import {ThemeContext} from "../../config/context/themeContext";
 import jwt from 'jwt-decode';
 import axios from 'axios';
 import UserChat from '../../components/UserChat';
@@ -11,6 +12,8 @@ import Messenger from '../../components/Messenger';
 import "./index.css";
 
 export default function Chat() {
+
+  const { theme, setTheme } = useContext(ThemeContext);
 
     // Snackbar position
     const options = {
@@ -122,14 +125,12 @@ export default function Chat() {
     }
 
     return (
-        <div className="chat">
+        <div className="chat" style={{background: theme === 'dark' ? '#202124' : '#ffffff'}}>
           <HeaderIcon />
           <div className="container">
-            <div className="chat-header">
-              {/* <div className="profile-btn"></div> */}
-            </div>
+            <span className="settings">&#9881;</span>
             <div className="chat-body">
-              <div className="chat-list">
+              <div className="chat-list" style={{background: theme === 'dark' ? '#464649' : '#f1f1f1'}}>
                 <div className="input-wrapper">
                   <input 
                     type="text" 

@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import Message from "../Message/index";
+import {ThemeContext} from "../../config/context/themeContext";
 import axios from 'axios';
 import "./index.css";
 
@@ -7,6 +8,7 @@ export default function Messenger({ data, currentUser, convoData, friendData, so
 
   const [message, setMessage] = useState('');
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const {theme, setTheme} = useContext(ThemeContext);
 
   const scrollRef = useRef();
 
@@ -43,10 +45,6 @@ export default function Messenger({ data, currentUser, convoData, friendData, so
         text: message
       });
 
-      console.log('current id: ', currentUser.id);
-      console.log('friend id: ', friendData["_id"]);
-      console.log('convo id: ', convoData["_id"]);
-
       socket.current.emit("sendMessage", {
         senderId: currentUser.id,
         receiverId: friendData["_id"],
@@ -62,10 +60,18 @@ export default function Messenger({ data, currentUser, convoData, friendData, so
   }
 
     return(
-        <div className="chat-messages">
-            <div className="user-header">
-              <div className="profile-btn"></div>
-              <div style={{display: 'flex', alignItems: 'center', marginLeft: '20px'}}>{friendData.username}</div>
+        <div className="chat-messages" style={{background: theme==="dark" ? "#464649" : "#F1F1F1"}}>
+            <div className="user-header" style={{background: theme==="dark" ? "#464649" : "#d7d7d7"}}>
+              <div id="hamburger">
+                <svg viewBox="0 0 100 50" width="35" height="30">
+                  <rect width="80" height="10"></rect>
+                  <rect y="20" width="80" height="10"></rect>
+                  <rect y="40" width="80" height="10"></rect>
+                </svg>
+              </div>
+              <hr></hr>
+              <div className="profile-btn" style={{background: theme==="dark" ? "#eeece0" : "#d7d7d7"}}></div>
+              <div style={{display: 'flex', alignItems: 'center', marginLeft: '20px', color: theme==="dark" ? "white" : "#d7d7d7"}} className="user-name">{friendData.username}</div>
             </div>
             <div className="msgs">
               {data.map(chat => 
@@ -79,7 +85,7 @@ export default function Messenger({ data, currentUser, convoData, friendData, so
                 </div>
               )}
             </div>
-            <div className="flex-container">
+            <div className="flex-container" style = {{background: theme === "dark" ? "#848486" : "#d7d7d7"}}>
               <input type="text" placeholder="Type a message..." className="flex-item-left" value={message} onChange={handleChange}/>
               <button className="flex-item-right" onClick={sendMessage}>Send</button>
             </div>

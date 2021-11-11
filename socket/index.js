@@ -15,9 +15,7 @@ const removeUser = (socketId) => {
 }
 
 const getUser = (userId) => {
-    console.log(users);
-    const fetchedUser = users.filter(user => user.userId === userId)
-    console.log(fetchedUser);
+    const fetchedUser = users.filter(user => user.userId === userId);
     return fetchedUser[0];
 }
 
@@ -35,7 +33,6 @@ io.on("connection", (socket) => {
     // send and get messages
     socket.on("sendMessage", ({ senderId, receiverId, text, conversationId }) => {
         const user = getUser(receiverId);
-        console.log(user);
         io.to(user.socketId).emit("getMessage", {
             senderId,
             text,
