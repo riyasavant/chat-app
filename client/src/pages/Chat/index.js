@@ -130,7 +130,16 @@ export default function Chat() {
             </div>
             <div className="chat-body">
               <div className="chat-list">
-                <input type="text" placeholder="&#xF002;  Search User" id="search-user" />
+                <div className="input-wrapper">
+                  <input 
+                    type="text" 
+                    placeholder={isSearching ? "Searching..." : "Search User" }
+                    id="search-user" 
+                    value={searchUser} 
+                    onChange={(e) => setSearchUser(e.target.value)}
+                  />
+                  {!isSearching && <div className="search-icon" onClick={handleSearch}>&#xF002;</div>}
+                </div>
                 <div className="user-list">
                   {conversations.map(convo => 
                     <UserChat 

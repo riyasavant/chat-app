@@ -1,5 +1,4 @@
 import { format } from "timeago.js";
-import "./index.css";
 
 export default function Message({ text, sender, time, currentUser }) {
 
