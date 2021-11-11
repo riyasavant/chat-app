@@ -125,26 +125,12 @@ export default function Chat() {
         <div className="chat">
           <HeaderIcon />
           <div className="container">
-            <span className="settings">&#9881;</span>
+            <div className="chat-header">
+              {/* <div className="profile-btn"></div> */}
+            </div>
             <div className="chat-body">
               <div className="chat-list">
-              <div id="hamburger">
-                  <svg viewBox="0 0 100 50" width="35" height="30" id="ham-tab">
-                    <rect width="80" height="10"></rect>
-                    <rect y="20" width="80" height="10"></rect>
-                    <rect y="40" width="80" height="10"></rect>
-                  </svg>
-                </div>
-                <div className="input-wrapper">
-                  <input 
-                    type="text" 
-                    placeholder={isSearching ? "Searching..." : "Search User" }
-                    id="search-user" 
-                    value={searchUser} 
-                    onChange={(e) => setSearchUser(e.target.value)}
-                  />
-                  {!isSearching && <div className="search-icon" onClick={handleSearch}>&#xF002;</div>}
-                </div>
+                <input type="text" placeholder="&#xF002;  Search User" id="search-user" />
                 <div className="user-list">
                   {conversations.map(convo => 
                     <UserChat 

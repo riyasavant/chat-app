@@ -9,19 +9,6 @@ body {
     overflow: hidden;
 }
 
-.settings{
-    position: absolute;
-    top: 3vh;
-    right:3vw;
-    font-size: 50px;
-}
-
-
-.settings:hover{
-    cursor: pointer;
-    visibility :visible;
-}
-
 .container {
     display: flex;
     flex-direction: column;
@@ -35,7 +22,6 @@ body {
 
 .chat-body {
     display: flex;
-    margin-top:4vh;
 }
 
 .chat-list {
@@ -46,11 +32,13 @@ body {
     overflow-y: scroll;
 }
 
-input[type="text"]#search-user{
-    width: 85%;
-    margin: 20px 0px 10px 20px;
+#search-user{
+    margin-left: 5%;
+    width: 90%;
+    margin-bottom: 0px;
     font-family: FontAwesome ;
     padding: 12px;
+}
 
 .input-wrapper {
     position: relative;
@@ -83,37 +71,52 @@ input[type="text"]#search-user{
     text-align: center;
 }
  
+::-webkit-scrollbar-thumb {
+    background-color: grey;
+}
+
+.user-header {
+    display: flex;
+    padding: 15px;
+    background-color: #d7d7d7;
+}
+
+* {
+    box-sizing: border-box;
+  }
+
   .flex-container {
     display: flex;
     flex-wrap: wrap;
     font-size: 30px;
     text-align: center;
     position: relative;
-    bottom:3.2vh;
+    bottom: 0.7vh;
     background-color: #DDD8D8;
   }
   
   .flex-item-left{
     padding: 10px 10px 10px 50px;
-    flex: 60vw;
+    flex: 85%;
     background-image: url("https://img.icons8.com/material-outlined/24/000000/keyboard.png")!important;
     background-repeat: no-repeat !important;
-    background-position:center !important;
-    background-position-x: 10px !important;
+    text-indent: 35px; 
+    background-position:center!important;
+    background-position-x: 10px!important;
   }
 
-  input[type="text"].flex-item-left{
-    margin:15px 15px 15px 15px
-      }
+  input[type="text"]{
+    margin: 20px 10px 20px 10px;
+     }
 
   .flex-item-right {
     background-color: #fb5454;
     color: white;
     font-size: 20px;
-    flex: 8%;
+    flex: 10%;
     cursor: pointer;
     border: none;
-    margin: 15px 10px 15px 0;
+    margin: 20px 10px 20px 0;
 
   }
   
@@ -122,216 +125,3 @@ input[type="text"]#search-user{
     height: 70vh;
     padding: 20px;
 }
-
-#hamburger{
-    display: none;
-}
-
-hr{
-    display: none;
-}
-
-.user-name{
-    display: flex;
-    align-items: center;
-    margin-left: 20px
-}
-  
-  .txt {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-size: 40px;
-    color: grey;
-}
-
-/* Tab View */
-
-@media (max-width: 1024px){
-    #icon{
-        display: none;
-    }
-    
-    .msgs {
-        height:100vh;
-    }
-    
-    .settings{
-    top:2vh;
-    right:5vw;
-    font-size: 7vh;
-    }
-    
-    .chat-body{
-        margin-top: 0;
-    }
-    
-    .chat-list{
-        display: none;
-    }
-    
-    .chat-messages {
-        margin: 0;
-        flex: 1;
-        height: 100%;
-        background-color: #f1f1f1;
-        margin-left: 0px;
-        position: inherit;
-    }
-    
-    .user-header{
-        height: 10vh;
-        padding: 15px 5px 15px 10px;
-    }
-    
-    .user-name{
-        align-items:center;
-        margin-top: 0;
-        margin-left: 10px
-    }
-    
-    .flex-container {
-        position: absolute;
-        display: inline;
-        bottom:0;
-        width: 100%;
-        height: 10vh;
-      }
-    
-      input[type="text"].flex-item-left {
-        display: inline-block;
-        width: 70%    ;
-        height: 6vh    ;
-        margin: 1.2vh 5px 1.2vh 0;
-        padding: 10px 10px 10px 9vw ;
-        font-size: xx-large;
-        background-image: url("https://img.icons8.com/material-outlined/50/000000/keyboard.png")!important;
-    }
-    
-    .flex-item-right {
-        display: inline-block;
-        margin: 5px;
-        padding:3vh 3vw 2.5vh;
-        font-size: x-large;
-      }
-    
-      #hamburger{
-        display: flex;
-    }
-
-    svg{
-        width: 10vw ;
-        height: 40px;
-        margin: 2.5vh 0px 10px;
-    }
-    
-    hr{
-        display: block;
-        margin: 1vh 4vw 1vh 0px;
-    }
-
-    .profile-btn {
-        height: 75px;
-        width: 75px;
-        margin: 2.2vh 0.5vw  ;
-    }   
-
-    .user-name {
-        font-size: xx-large;
-        margin-left: 2.5vw;
-    }
-}
-
-/* Mobile View */
-
-@media (max-width: 414px){
-    #icon{
-        display: none;
-    }
-    
-    .msgs {
-        height:80vh;
-        padding: 10px;
-    }
-
-    .profile-btn {
-        height: 30px;
-        width: 30px;
-        margin: 10px 0px;
-    }
-    
-    .settings{
-    display: none;
-    }
-
-    .user-name {
-        font-size:small;
-        margin-left: 2.5vw;
-    }
-    
-    .chat-body{
-        margin-top: 0;
-    }
-    
-    .chat-list{
-        display: none;
-    }
-    
-    .chat-messages {
-        margin: 0;
-        flex: 1;
-        height: 100%;
-        background-color: #f1f1f1;
-        margin-left: 0px;
-        position: inherit;
-    }
-    
-    .user-header{
-        height: 7vh;
-        padding: 15px 5px 15px 10px;
-    }
-    
-    .user-name{
-        align-items:center;
-        margin-bottom: 0vh;
-        margin-left: 10px
-    }
-    
-    .flex-container {
-        position: absolute;
-        display: inline;
-        bottom:0;
-        width: 100%;
-        height: auto;
-      }
-    
-      input[type="text"].flex-item-left {
-        width: 63vw;
-        height: auto;
-        margin: 1.2vh 5px 1.2vh 0;
-        display: inline-block;
-        padding: 10px 10px 10px 12vw;
-        font-size: medium;
-    background-image: url(https://img.icons8.com/material-outlined/24/000000/keyboard.png)!important;
-    }
-    
-    .flex-item-right {
-        display: inline-block;
-        margin: 0;
-        padding: 15px 10px 10px;
-        font-size: medium;
-      }
-    
-      #hamburger{
-        display:flex;
-        margin: 0;
-    }
-
-    svg{
-        width: auto ;
-        height: auto;
-        margin: 2vh 0px 2vh 5px;
-    }
-    
-    }

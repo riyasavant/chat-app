@@ -51,14 +51,11 @@ input[type="text"], input[type="password"] {
   background: #e6e6e6;
   border: none;
   outline: none;
-  font-size: 20px;
-  font-family: inherit;
-}
-
-input[type="text"].pos, input[type="password"].pos{
-  margin: 20px 20px 20px 20px;
   padding: 15px 10px;
+  font-size: 20px;
+  margin: 20px;
   width: 295px;
+  font-family: inherit;
 }
 
 #new-user {
@@ -74,7 +71,11 @@ input[type="text"].pos, input[type="password"].pos{
   color: #fb5454;
 }
 
-svg[type="submit"]{
+input[type="text"]#pos{
+  margin-left: 20px !important ;
+}
+
+*{
   box-sizing: unset!important;
 }
 
@@ -195,7 +196,7 @@ button {
     margin-top: 0vh;
   }
 
-  input[type="text"].pos, input[type="password"].pos {
+  input[type="text"], input[type="password"] {
     margin: 30px 0px;
     width: 80vw;
     font-size: large;
@@ -274,7 +275,7 @@ button {
     margin-top: 0vh;
   }
 
-  input[type="text"].pos, input[type="password"].pos {
+  input[type="text"], input[type="password"] {
     margin: 20px 0px;
     width:75vw;
   }
