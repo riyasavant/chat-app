@@ -45,8 +45,8 @@ function Auth({ isLogin, doSubmit, errorMsg }) {
                   </span>
                 </p>
               </div>
-              <input type="text" placeholder="Username" id="pos" required/>
-              <input type="password" placeholder="Password" required/>
+              <input type="text" placeholder="Username" className="pos" required/>
+              <input type="password" placeholder="Password" className="pos" required/>
               {passwordError && <p className="error">{passwordError}</p>}
               <p className="error">{errorMsg}</p>
               <div>

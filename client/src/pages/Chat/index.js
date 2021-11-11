@@ -125,11 +125,16 @@ export default function Chat() {
         <div className="chat">
           <HeaderIcon />
           <div className="container">
-            <div className="chat-header">
-              {/* <div className="profile-btn"></div> */}
-            </div>
+            <span className="settings">&#9881;</span>
             <div className="chat-body">
               <div className="chat-list">
+              <div id="hamburger">
+                  <svg viewBox="0 0 100 50" width="35" height="30" id="ham-tab">
+                    <rect width="80" height="10"></rect>
+                    <rect y="20" width="80" height="10"></rect>
+                    <rect y="40" width="80" height="10"></rect>
+                  </svg>
+                </div>
                 <div className="input-wrapper">
                   <input 
                     type="text" 
