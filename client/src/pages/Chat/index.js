@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import { useSnackbar } from 'react-simple-snackbar';
 import { io } from "socket.io-client";
 import {ThemeContext} from "../../config/context/themeContext";
+import { useMediaQuery } from "../../utilities/mediaQuery";
 import jwt from 'jwt-decode';
 import axios from 'axios';
 import UserChat from '../../components/UserChat';
@@ -23,6 +24,8 @@ export default function Chat() {
     const history = useHistory();
     const [openSnackbar, closeSnackbar] = useSnackbar(options);
 
+    let isSmallScreen = useMediaQuery('(max-width: 1100px)');
+
     // Search for a user
     const [isSearching, setIsSearching] = useState(false);
     const [searchUser, setSearchUser] = useState('');
@@ -33,6 +36,7 @@ export default function Chat() {
 
     // Stores the messages of current selected conversation
     const [chatMessages, setChatMessages] = useState(null);
+    const [isChatSelected, setIsChatSelected] = useState(false);
 
     // Stores details of the current user -> decoding token
     const [currentUser, setCurrentUser] = useState(null);
@@ -102,6 +106,7 @@ export default function Chat() {
         openSnackbar('Messages Fetched Successfully');
         setChatMessages(messagesData.data);
         setFriendSelected(friendData);
+        setIsChatSelected(true);
       } catch(err) {
         openSnackbar('Could not fetch messages');
       }
@@ -124,8 +129,13 @@ export default function Chat() {
       }
     }
 
+    const clearSelectedConvo = () => {
+      setIsChatSelected(false);
+    }
+
     return (
-        <div className="chat" style={{background: theme === 'dark' ? '#202124' : '#ffffff'}}>
+      <div style={{background: theme === 'dark' ? '#202124' : 'white'}}>
+        {!isSmallScreen ? <div className="chat" style={{background: theme === 'dark' ? '#202124' : '#ffffff'}}>
           <HeaderIcon />
           <div className="container">
             <span className="settings">&#9881;</span>
@@ -166,6 +176,46 @@ export default function Chat() {
               }
             </div>
           </div>
-        </div>
+        </div> : 
+        <div className="chat">
+            {!isChatSelected ? <><div className="header-m"><HeaderIcon /></div>
+            <span className="settings">&#9881;</span>
+            <div className="container-m">
+                <div className="input-wrapper-m">
+                  <input 
+                    type="text" 
+                    placeholder={isSearching ? "Searching..." : "Search User" }
+                    id="search-user-m" 
+                    value={searchUser} 
+                    onChange={(e) => setSearchUser(e.target.value)}
+                  />
+                  {!isSearching && <div className="search-icon-m" onClick={handleSearch}>&#xF002;</div>}
+                </div>
+                <div className="chat-list-m" style={{background: theme === 'dark' ? '#212024' : '#f1f1f1'}}>
+                  
+                <div className="user-list-m">
+                  {conversations.map(convo => 
+                    <UserChat 
+                      data={convo} 
+                      currentUser={currentUser} 
+                      onClick={(friendData) => showMessages(convo, friendData)}
+                    />
+                  )}
+                </div>
+              </div>
+            </div></> : 
+            <>
+              <Messenger 
+                data={chatMessages} 
+                currentUser={currentUser} 
+                convoData={selectedConvo} 
+                friendData={friendSelected} 
+                socket={socket}
+                setChatData={setChatMessages}
+                clearSelection={clearSelectedConvo}
+              />
+            </>}
+        </div>}
+      </div>
     )
 }
