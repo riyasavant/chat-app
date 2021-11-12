@@ -68,9 +68,9 @@ export default function Messenger({ data, currentUser, convoData, friendData, so
     return(
       <>
         {!isSmallScreen ? <div className="chat-messages" style={{background: theme==="dark" ? "#464649" : "#F1F1F1"}}>
-            <div className="user-header" style={{background: theme==="dark" ? "#464649" : "#d7d7d7"}}>
+            <div className="user-header" style={{background: theme==="dark" ? "#464649" : "#e6e6e6"}}>
               <div className="profile-btn"><img src={images[friendData ? friendData.profileImage : 0]} height={20} width={20} alt="profile-pic"/></div>
-              <div style={{display: 'flex', alignItems: 'center', marginLeft: '20px', color: theme==="dark" ? "white" : "#d7d7d7"}} className="user-name">{friendData.username}</div>
+              <div style={{display: 'flex', alignItems: 'center', marginLeft: '20px', color: theme==="dark" ? "white" : "#202124"}} className="user-name">{friendData.username}</div>
             </div>
             <div className="msgs">
               {data.map(chat => 
