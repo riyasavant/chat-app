@@ -5,6 +5,7 @@ import { useSnackbar } from 'react-simple-snackbar';
 import { io } from "socket.io-client";
 import {ThemeContext} from "../../config/context/themeContext";
 import { useMediaQuery } from "../../utilities/mediaQuery";
+import { images } from '../../config/constants';
 import jwt from 'jwt-decode';
 import axios from 'axios';
 import UserChat from '../../components/UserChat';
@@ -25,6 +26,7 @@ export default function Chat() {
     const [openSnackbar, closeSnackbar] = useSnackbar(options);
 
     let isSmallScreen = useMediaQuery('(max-width: 1100px)');
+    const [showMenu, setShowMenu] = useState(false);
 
     // Search for a user
     const [isSearching, setIsSearching] = useState(false);
@@ -133,12 +135,28 @@ export default function Chat() {
       setIsChatSelected(false);
     }
 
+    const handleLogout = () => {
+      openSnackbar('Logging you out');
+      localStorage.removeItem("token");
+      history.push('/');
+    }
+
+    const handleThemeChange = () => {
+      setTheme(theme === 'dark' ? 'light' : 'dark');
+      setShowMenu(false);
+    }
+
     return (
       <div style={{background: theme === 'dark' ? '#202124' : 'white'}}>
         {!isSmallScreen ? <div className="chat" style={{background: theme === 'dark' ? '#202124' : '#ffffff'}}>
-          <HeaderIcon />
+          <div class="header-l"><HeaderIcon /></div>
           <div className="container">
-            <span className="settings">&#9881;</span>
+            <div className="settings" onClick={() => setShowMenu(!showMenu)}><img src={images[0]} alt="profile"/></div>
+            {showMenu && <div className="menu">
+              <div className="darkMenu" onClick={handleThemeChange}>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</div>
+              <div className="divider" style={{background: theme === 'dark' ? '#202124' : 'white'}}><hr /></div>
+              <div className="logoutMenu" onClick={handleLogout}>Logout</div>
+            </div>}
             <div className="chat-body">
               <div className="chat-list" style={{background: theme === 'dark' ? '#464649' : '#f1f1f1'}}>
                 <div className="input-wrapper">
@@ -179,7 +197,12 @@ export default function Chat() {
         </div> : 
         <div className="chat">
             {!isChatSelected ? <><div className="header-m"><HeaderIcon /></div>
-            <span className="settings">&#9881;</span>
+            <div className="settings" onClick={() => setShowMenu(!showMenu)}><img src={images[0]} alt="profile" width="25px" height="25px"/></div>
+            {showMenu && <div className="menu">
+              <div className="darkMenu" onClick={handleThemeChange}>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</div>
+              <div className="divider" style={{background: theme === 'dark' ? '#202124' : 'white'}}><hr /></div>
+              <div className="logoutMenu" onClick={handleLogout}>Logout</div>
+            </div>}
             <div className="container-m">
                 <div className="input-wrapper-m">
                   <input 

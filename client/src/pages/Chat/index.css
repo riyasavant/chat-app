@@ -16,15 +16,48 @@ body {
 
 .settings{
     position: absolute;
-    top: 1vh;
-    right: 2vw;
-    font-size: 40px;
+    top: 3vh;
+    right: 3vw;
+}
+
+.menu {
+    position: absolute;
+    right: 3vw;
+    top: 4.5vw;
+    transition-timing-function: ease-in;
+}
+
+.darkMenu {
+    background: #d5d5d5;
+    padding: 10px;
+    color: black;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+}
+
+.divider {
+    background: #202124;
+    height: 1px;
+}
+
+.logoutMenu {
+    background: #d5d5d5;
+    padding: 10px;
+    color: black;
+    cursor: pointer;
+    border-radius: 0 0 10px 10px;
 }
 
 .header-m {
     position: absolute;
     top: 1vh;
     left: 2vh;
+}
+
+.header-l {
+    position: absolute;
+    top: 1vh;
+    left: 1vh;
 }
 
 .settings:hover{
@@ -126,6 +159,13 @@ body {
 
 #hamburger{
     display: none;
+}
+
+@media (max-width: 1290px) {
+    .header-l {
+        top: 2vh;
+        left: 2vw;
+    }
 }
 
 @media (max-width: 412px) {
