@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useHistory } from 'react-router';
 import { useSnackbar } from 'react-simple-snackbar';
-import { io } from "socket.io-client";
+import io from "socket.io-client";
 import {ThemeContext} from "../../config/context/themeContext";
 import { useMediaQuery } from "../../utilities/mediaQuery";
 import { images } from '../../config/constants';
@@ -47,21 +47,9 @@ export default function Chat() {
     const [friendSelected, setFriendSelected] = useState('');
 
     // Creates a reference to socket connection
-    const socket = useRef();
+    // const socket = useRef();
 
-    // Runs when socket fns are called
-    useEffect(() => {
-      socket.current = io("ws://localhost:8900");
-    }, []);
-
-    useEffect(() => {
-      const token = localStorage.getItem("token");
-      if(token) {
-        const data = jwt(token);
-        socket.current.emit("addUser", data?.id)
-      }
-      socket.current.on("getUsers", (users) => console.log(users));
-    }, []);
+    const [socket, setSocket] = useState(null);
 
     // Initially checks if user is logged in
     useEffect(() => {
@@ -85,6 +73,21 @@ export default function Chat() {
       .catch(err => console.log(err));
       
     }, []);
+
+    // Runs when socket fns are called
+    useEffect(() => {
+      const newSocket = io(`https://e2e-chat.herokuapp.com/`);
+      setSocket(newSocket);
+      return () => newSocket.close();
+    }, []);
+
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+      if(token) {
+        const data = jwt(token);
+        socket ? socket.emit("addUser", data.id) : console.log('Socket is Null');
+      }
+    }, [socket]);
 
     // Fetches all conversations on page load
     useEffect(() => {
