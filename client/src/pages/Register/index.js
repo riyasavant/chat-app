@@ -18,11 +18,13 @@ function RegisterPage() {
       e.preventDefault();
 
       setErrorMessage('');
+      const randomImage = Math.floor(Math.random() * 8);
 
       const form = e.target;
       const user = {
         username: form[0].value,
-        password: form[1].value
+        password: form[1].value,
+        profileImage: randomImage
       };
 
       openSnackbar('Registering you...', 3000);

@@ -151,7 +151,7 @@ export default function Chat() {
         {!isSmallScreen ? <div className="chat" style={{background: theme === 'dark' ? '#202124' : '#ffffff'}}>
           <div class="header-l"><HeaderIcon /></div>
           <div className="container">
-            <div className="settings" onClick={() => setShowMenu(!showMenu)}><img src={images[0]} alt="profile"/></div>
+            <div className="settings" onClick={() => setShowMenu(!showMenu)}><img src={images[currentUser ? currentUser.profileImage : 0]} alt="profile"/></div>
             {showMenu && <div className="menu">
               <div className="darkMenu" onClick={handleThemeChange}>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</div>
               <div className="divider" style={{background: theme === 'dark' ? '#202124' : 'white'}}><hr /></div>
@@ -197,7 +197,7 @@ export default function Chat() {
         </div> : 
         <div className="chat">
             {!isChatSelected ? <><div className="header-m"><HeaderIcon /></div>
-            <div className="settings" onClick={() => setShowMenu(!showMenu)}><img src={images[0]} alt="profile" width="25px" height="25px"/></div>
+            <div className="settings" onClick={() => setShowMenu(!showMenu)}><img src={currentUser ? images[currentUser.profileImage] : images[0]} alt="profile" width="25px" height="25px"/></div>
             {showMenu && <div className="menu">
               <div className="darkMenu" onClick={handleThemeChange}>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</div>
               <div className="divider" style={{background: theme === 'dark' ? '#202124' : 'white'}}><hr /></div>

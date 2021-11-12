@@ -25,6 +25,7 @@ body {
     right: 3vw;
     top: 4.5vw;
     transition-timing-function: ease-in;
+    z-index: 1;
 }
 
 .darkMenu {

@@ -69,15 +69,7 @@ export default function Messenger({ data, currentUser, convoData, friendData, so
       <>
         {!isSmallScreen ? <div className="chat-messages" style={{background: theme==="dark" ? "#464649" : "#F1F1F1"}}>
             <div className="user-header" style={{background: theme==="dark" ? "#464649" : "#d7d7d7"}}>
-              <div id="hamburger">
-                <svg viewBox="0 0 50 50" width="20" height="20">
-                  <rect width="50" height="5"></rect>
-                  <rect y="20" width="50" height="5"></rect>
-                  <rect y="40" width="50" height="5"></rect>
-                </svg>
-              </div>
-              <hr></hr>
-              <div className="profile-btn" style={{background: theme==="dark" ? "#eeece0" : "#d7d7d7"}}></div>
+              <div className="profile-btn"><img src={images[friendData ? friendData.profileImage : 0]} height={20} width={20} alt="profile-pic"/></div>
               <div style={{display: 'flex', alignItems: 'center', marginLeft: '20px', color: theme==="dark" ? "white" : "#d7d7d7"}} className="user-name">{friendData.username}</div>
             </div>
             <div className="msgs">
@@ -100,7 +92,7 @@ export default function Messenger({ data, currentUser, convoData, friendData, so
         <div className="chat-messages-m" style={{background: theme==="dark" ? "#202124" : "#F1F1F1"}}>
           <div className="user-header" style={{background: theme==="dark" ? "#464649" : "#d7d7d7"}}>
             <div onClick={clearSelection} style={{cursor: 'pointer'}}><img src={theme === 'dark' ? arrows["dark"] : arrows["light"]} alt="alt-icon" width="20px"/></div>
-            <div className="profile-btn" style={{marginLeft: '12px'}}><img src={images[randomImage]} height={20} width={20} alt="profile-pic"/></div>
+            <div className="profile-btn" style={{marginLeft: '12px'}}><img src={images[friendData ? friendData.profileImage : 0]} height={20} width={20} alt="profile-pic"/></div>
             <div style={{display: 'flex', alignItems: 'center', marginLeft: '10px', color: theme==="dark" ? "white" : "#d7d7d7"}} className="user-name">{friendData.username}</div>
           </div>
           <div className="msgs">

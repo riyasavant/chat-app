@@ -29,7 +29,8 @@ router.post('/login', async (req, res) => {
         if(isMatching) {
           const payload = {
             id: dbUser._id,
-            username: dbUser.username
+            username: dbUser.username,
+            profileImage: dbUser.profileImage
           };
 
           jwt.sign(
@@ -70,7 +71,8 @@ router.post('/register', async (req, res) => {
 
     const newUser = new User({
       username: user.username,
-      password: user.password
+      password: user.password,
+      profileImage: Number(user.profileImage)
     });
 
     newUser.save();
