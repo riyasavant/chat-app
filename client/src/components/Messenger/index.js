@@ -23,7 +23,7 @@ export default function Messenger({ data, currentUser, convoData, friendData, so
   }, [data])
 
   useEffect(() => {
-    socket.current.on("getMessage", newMsgData => {
+    socket.on("getMessage", newMsgData => {
       setArrivalMessage({
         conversationId: newMsgData.conversationId,
         sender: newMsgData.senderId,
@@ -51,7 +51,7 @@ export default function Messenger({ data, currentUser, convoData, friendData, so
         text: message
       });
 
-      socket.current.emit("sendMessage", {
+      socket.emit("sendMessage", {
         senderId: currentUser.id,
         receiverId: friendData["_id"],
         text: message,
