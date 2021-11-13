@@ -16,10 +16,15 @@
    1. method: GET
    2. header: {"x-access-token": Pass the token stored in localStorage}
    3. body: null  
-2. Get user details - `/api/user/:userId`
+2. Get user details - `/api/user/get/:userId`
    1. method: GET
    2. param: userId - string  
-   
+3. Get user details using username - `/api/user/:username`
+   1. method: GET
+   2. param: username - string  
+4. Get all users - `/api/user/`
+   1. method: GET  
+
 ### Conversation  
 1. Create a conversation - `/api/conversations/`  
    1. method: POST
