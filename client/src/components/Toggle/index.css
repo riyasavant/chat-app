@@ -2,11 +2,11 @@
     float: right;
 }
 .switch {
-    position: relative;
+    position: absolute;
     display: flex;
     width: 60px;
     height: 34px;
-    right: 6vw;
+    right: 3vw;
     top: 5vh;
   }
 

@@ -58,7 +58,7 @@ function Auth({ isLogin, doSubmit, errorMsg }) {
               </div>
             </form>
           </div>
-          <Wave />
+          <div style={{position: 'absolute', bottom: '0'}}><Wave /></div>
         </div>
       </div>
     );

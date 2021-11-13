@@ -209,6 +209,13 @@ button {
     font-size: large;
   }
 
+  #new-user-dark {
+    display: inline-block;
+    margin: 0;
+    text-align: left;
+    font-size: large;
+  }
+
   #sign-in {
     padding: 0;
     margin-left: 0;
@@ -233,8 +240,6 @@ button {
     margin-left: 0px;
   }
 }
-
-
 
 /* mobile view */
 @media (max-width: 414px) {

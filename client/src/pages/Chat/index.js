@@ -11,6 +11,7 @@ import axios from 'axios';
 import UserChat from '../../components/UserChat';
 import HeaderIcon from '../../components/Icon';
 import Messenger from '../../components/Messenger';
+import Menu from "../../components/Menu/index";
 import "./index.css";
 
 export default function Chat() {
@@ -24,31 +25,33 @@ export default function Chat() {
 
     const history = useHistory();
     const [openSnackbar, closeSnackbar] = useSnackbar(options);
-
     let isSmallScreen = useMediaQuery('(max-width: 1100px)');
+
     const [showMenu, setShowMenu] = useState(false);
 
-    // Search for a user
+    // Search user
     const [isSearching, setIsSearching] = useState(false);
     const [searchUser, setSearchUser] = useState('');
 
-    // Stores all conversations
+    // Fetch all conversations
     const [conversations, setConversations] = useState([]);
+
+    // Current selected convo
     const [selectedConvo, setSelectedConvo] = useState(null);
 
-    // Stores the messages of current selected conversation
+    // Messages of current selected convo
     const [chatMessages, setChatMessages] = useState(null);
+
+    // For mobile view
     const [isChatSelected, setIsChatSelected] = useState(false);
 
-    // Stores details of the current user -> decoding token
+    // Current user details
     const [currentUser, setCurrentUser] = useState(null);
 
-    // Stores the details of current convo friend
+    // Friend user details (of selected convo)
     const [friendSelected, setFriendSelected] = useState('');
 
-    // Creates a reference to socket connection
-    // const socket = useRef();
-
+    // socket state
     const [socket, setSocket] = useState(null);
 
     // Initially checks if user is logged in
@@ -155,11 +158,7 @@ export default function Chat() {
           <div class="header-l"><HeaderIcon /></div>
           <div className="container">
             <div className="settings" onClick={() => setShowMenu(!showMenu)}><img src={images[currentUser ? currentUser.profileImage : 0]} alt="profile"/></div>
-            {showMenu && <div className="menu">
-              <div className="darkMenu" onClick={handleThemeChange}>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</div>
-              <div className="divider" style={{background: theme === 'dark' ? '#202124' : 'white'}}><hr /></div>
-              <div className="logoutMenu" onClick={handleLogout}>Logout</div>
-            </div>}
+            {showMenu && <Menu handleThemeChange={handleThemeChange} handleLogout={handleLogout} theme={theme}/>}
             <div className="chat-body">
               <div className="chat-list" style={{background: theme === 'dark' ? '#464649' : '#f1f1f1'}}>
                 <div className="input-wrapper">
@@ -200,12 +199,15 @@ export default function Chat() {
         </div> : 
         <div className="chat">
             {!isChatSelected ? <><div className="header-m"><HeaderIcon /></div>
-            <div className="settings" onClick={() => setShowMenu(!showMenu)}><img src={currentUser ? images[currentUser.profileImage] : images[0]} alt="profile" width="25px" height="25px"/></div>
-            {showMenu && <div className="menu">
-              <div className="darkMenu" onClick={handleThemeChange}>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</div>
-              <div className="divider" style={{background: theme === 'dark' ? '#202124' : 'white'}}><hr /></div>
-              <div className="logoutMenu" onClick={handleLogout}>Logout</div>
-            </div>}
+            <div className="settings" onClick={() => setShowMenu(!showMenu)}>
+              <img 
+                src={currentUser ? images[currentUser.profileImage] : images[0]} 
+                alt="profile" 
+                width="25px" 
+                height="25px"
+              />
+            </div>
+            {showMenu && <Menu handleThemeChange={handleThemeChange} handleLogout={handleLogout} theme={theme}/>}
             <div className="container-m">
                 <div className="input-wrapper-m">
                   <input 
