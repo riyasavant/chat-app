@@ -7,7 +7,7 @@ import sendIcon from "../../icons/send.png";
 import axios from 'axios';
 import "./index.css";
 
-export default function Messenger({ data, currentUser, convoData, friendData, socket, setChatData, clearSelection }) {
+export default function Messenger({ data, currentUser, convoData, friendData, socket, setChatData, clearSelection, openSnackbar }) {
 
   const [message, setMessage] = useState('');
   const [arrivalMessage, setArrivalMessage] = useState(null);
@@ -44,24 +44,29 @@ export default function Messenger({ data, currentUser, convoData, friendData, so
   }
 
   const sendMessage = async () => {
-    try {
-      const response = await axios.post(process.env.REACT_APP_API_URL + "/messages/", {
-        conversationId: convoData._id,
-        sender: currentUser.id,
-        text: message
-      });
-
-      socket.emit("sendMessage", {
-        senderId: currentUser.id,
-        receiverId: friendData["_id"],
-        text: message,
-        conversationId: convoData["_id"]
-      });
-
-      setChatData([...data, response.data]);
-      setMessage('');
-    } catch(e) {
-      console.log(e);
+    if(message.length > 0) {
+      try {
+        const response = await axios.post(process.env.REACT_APP_API_URL + "/messages/", {
+          conversationId: convoData._id,
+          sender: currentUser.id,
+          text: message
+        });
+  
+        socket.emit("sendMessage", {
+          senderId: currentUser.id,
+          receiverId: friendData["_id"],
+          text: message,
+          conversationId: convoData["_id"]
+        });
+  
+        setChatData([...data, response.data]);
+        setMessage('');
+      } catch(e) {
+        console.log(e);
+      }
+    }
+    else {
+      openSnackbar('Cannot send empty message');
     }
   }
 

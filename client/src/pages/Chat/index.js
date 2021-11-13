@@ -189,6 +189,7 @@ export default function Chat() {
                   friendData={friendSelected} 
                   socket={socket}
                   setChatData={setChatMessages}
+                  openSnackbar={openSnackbar}
                 /> : 
                 <div className="default-txt">
                   <div className="txt">Select a chat to see the messages...</div>
@@ -241,6 +242,7 @@ export default function Chat() {
                 socket={socket}
                 setChatData={setChatMessages}
                 clearSelection={clearSelectedConvo}
+                openSnackbar={openSnackbar}
               />
             </>}
         </div>}
